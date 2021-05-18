@@ -61,14 +61,6 @@ end
 if reqMethod == 'POST' then                                                 -- verify if request is POST
     Api.endpoint('POST', '/test',
         function(body)
-            return ngx.say(
-                cjson.encode(
-                    {
-                        method=method,
-                        path=path,
-                        body=body
-                    }
-                ));
         end
     )
 end
