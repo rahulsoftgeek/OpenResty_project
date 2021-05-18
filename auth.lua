@@ -1,5 +1,5 @@
 local cjson = require "cjson.safe" 
-local allowedkeys = {"abc123", "def456", "hij789"} 
+local allowedkeys = {"abc123", "def456"} 
 local function badAuth() 
     ngx.status = 401 
     ngx.say(cjson.encode({status="error",
