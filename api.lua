@@ -1,4 +1,9 @@
-local db = require "db"                  
+db_conn = require "db"           
+
+if not db_conn then
+    ngx.say("failed to instantiate mysql: ", err)
+    return
+end
 
 local cjson = require("cjson")                          -- Introduce cjson
 ngx.req.read_body();                                     -- Required for ngx.req.get_body_data()
@@ -24,7 +29,7 @@ function Api.endpoint(method, path, callback)            -- Function for checkin
 
         local quoted_name = ngx.quote_sql_str(value)       -- to quote values
         local post_query = "insert into employees (name)" .. "values (" .. quoted_name ..")" 
-        res, err, errcode, sqlstate = db.db_conn:query(post_query) -- Posting data to db
+        res, err, errcode, sqlstate = db_conn.connect(db):query(post_query) -- Posting data to db
         if not res then
             ngx.say("bad result: ", err, ": ", errcode, ": ", sqlstate, ".")
             return
@@ -42,21 +47,21 @@ end
 
 if reqMethod == 'GET' then                                                  -- verify if request is GET
     local id = tonumber(ngx.unescape_uri(ngx.var.arg_id))                   -- parsing URI & getting id
-    local rescontent=db.red:get("id_"..id)                                  -- getting the value if record exist in redis
+    local rescontent=db_conn.redconnect(red):get("id_"..id)                                     -- getting the value if record exist in redis
     local res_str = tostring(rescontent)
     
     if res_str == "userdata: NULL"  then                                    -- check if retured data is NULL
         local quoted_name_get = ngx.quote_sql_str(id)                       -- fetch data from db
         local get_query =  "select * from employees where id =" ..quoted_name_get
         res, err, errcode, sqlstate =
-                db.db_conn:query(get_query)
+        db_conn.connect(db):query(get_query)
             if not res then
                 ngx.say("bad result: ", err, ": ", errcode, ": ", sqlstate, ".")
                 return
             end
         
-        red:set("id_"..id,cjson.encode(res))                                  -- What to deposit to redis
-        red:close()
+        db_conn.redconnect(red):set("id_"..id,cjson.encode(res))                                  -- What to deposit to redis
+        db_conn.redconnect(red):close()
         ngx.say("result: ", cjson.encode(res))                                -- return the result
         ngx.say("{flag:true}") 
     else
