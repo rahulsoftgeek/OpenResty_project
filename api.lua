@@ -1,4 +1,5 @@
 db_conn = require "db"           
+red_conn = require "redis" 
 
 if not db_conn then
     ngx.say("failed to instantiate mysql: ", err)
@@ -47,7 +48,7 @@ end
 
 if reqMethod == 'GET' then                                                  -- verify if request is GET
     local id = tonumber(ngx.unescape_uri(ngx.var.arg_id))                   -- parsing URI & getting id
-    local rescontent=db_conn.redconnect(red):get("id_"..id)                                     -- getting the value if record exist in redis
+    local rescontent=red_conn.redconnect(red):get("id_"..id)                                     -- getting the value if record exist in redis
     local res_str = tostring(rescontent)
     
     if res_str == "userdata: NULL"  then                                    -- check if retured data is NULL
@@ -60,11 +61,19 @@ if reqMethod == 'GET' then                                                  -- v
                 return
             end
         
-        db_conn.redconnect(red):set("id_"..id,cjson.encode(res))                                  -- What to deposit to redis
-        db_conn.redconnect(red):close()
-        ngx.say("result: ", cjson.encode(res))                                -- return the result
+        red_conn.redconnect(red):set("id_"..id,cjson.encode(res))                                  -- What to deposit to redis
+        --red_conn.redconnect(red):close()
+        ngx.say("result from db: ", cjson.encode(res))                                -- return the result
         ngx.say("{flag:true}") 
+
+        local ok, err = red_conn.redconnect(red):set_keepalive(10000, 100)
+        if not ok then
+            ngx.say("failed to set keepalive: ", err)
+            return
+        end
+
     else
+        ngx.say("result from redis: ")
         ngx.say(rescontent)                                                   -- return data from redis
     end
 end
