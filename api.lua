@@ -1,12 +1,8 @@
-db_conn = require "db"           
-red_conn = require "redis" 
-
-if not db_conn then
-    ngx.say("failed to instantiate mysql: ", err)
-    return
-end
-
+local db_conn = require "db"           
+local red_conn = require "redis" 
 local cjson = require("cjson")                          -- Introduce cjson
+
+
 ngx.req.read_body();                                     -- Required for ngx.req.get_body_data()
 local reqPath = ngx.var.uri:gsub("api/", "")             -- Strip the api/ bit from the request path
 local reqMethod = ngx.var.request_method                 -- Get the request method
@@ -61,19 +57,11 @@ if reqMethod == 'GET' then                                                  -- v
                 return
             end
         
-        red_conn.redconnect(red):set("id_"..id,cjson.encode(res))                                  -- What to deposit to redis
+        red_conn.redconnect(red):set("id_"..id,cjson.encode(res))                    -- What to deposit to redis
         --red_conn.redconnect(red):close()
-        ngx.say("result from db: ", cjson.encode(res))                                -- return the result
-        ngx.say("{flag:true}") 
-
-        local ok, err = red_conn.redconnect(red):set_keepalive(10000, 100)
-        if not ok then
-            ngx.say("failed to set keepalive: ", err)
-            return
-        end
-
+        ngx.say("Result from db: ", cjson.encode(res))                                -- return the result
     else
-        ngx.say("result from redis: ")
+        ngx.say("Result from redis: ")
         ngx.say(rescontent)                                                   -- return data from redis
     end
 end
@@ -85,4 +73,16 @@ if reqMethod ~= 'POST' and reqMethod ~= 'GET' then                            --
                 message="Method " .. reqMethod .. " not allowed"
             })
         )
+end
+
+local ok, err = red_conn.redconnect(red):set_keepalive(1000, 100)
+if not ok then
+    ngx.say("failed to set keepalive: ", err)
+    return
+end
+
+local ok, err = db_conn.connect(db):set_keepalive(1000, 100)
+if not ok then
+    ngx.say("failed to set keepalive: ", err)
+    return
 end
