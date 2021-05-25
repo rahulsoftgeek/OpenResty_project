@@ -4,7 +4,7 @@ local _M={}
 
 function _M.connect()
 
-    db, err = mysql:new()
+    local db, err = mysql:new()
     if not db then
         ngx.say("failed to instantiate mysql: ", err)
         return
@@ -20,6 +20,8 @@ function _M.connect()
         password = "password",
         charset = "utf8",
         max_packet_size = 1024 * 1024,
+        pool = "mysql_conn_pool",
+        pool_size =100,
     }
 
     if not ok then
@@ -27,7 +29,6 @@ function _M.connect()
         return
     end
 
-    ngx.say("connected to mysql.")
     return db
 end
 
