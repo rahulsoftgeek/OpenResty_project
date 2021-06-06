@@ -43,6 +43,9 @@ docker run -d \
 If everything works fine then you should able to see APIs at `localhost:8082`.
 
 # Hosted the same application on AWS cloud and below is the architcture of the application.
+
+Web App Reference Architecture.pdf![image](https://user-images.githubusercontent.com/18359745/120928982-1b0ab980-c6b5-11eb-9ca8-ac1afc18c6d4.png)
+
 - Running the docker container of openresty server on EC2 instance inside custom VPC and public subnet.
 - Also, running docker container of MySQL and redis on different EC2 instance inside the same VPC in private subnet and connect with NAT instance to access the internet.
 - Configured the application load balancer to balance the web traffic and high availability.
