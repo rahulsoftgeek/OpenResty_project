@@ -30,7 +30,9 @@ docker build -t gargrahulcs/openresty:tag .
 
 ### Run Image
 
--- 
+-- Do setup Mysql and Redis credentials accordingly in the db.lua and redis.lua & connect with Database and redis cluster.
+-- Also, for Authorization set the paramters of API keys in the auth.lua accordinly send the API keys in the request header.
+
 ```bash
 docker run -d \
     --name=openresty \
@@ -41,10 +43,18 @@ If everything works fine then you should able to see APIs at `localhost:8082\api
 
 ### API Information
 
-1 - Authentication
-2 - Adding new Employee record
-3 - Getting Employee record
-4 - Updating Employee record
+Received basic information of response status code, response header will get while sending below request.
+```bash
+$curl -I https://apis.gargrahul.com               
+>HTTP/2 200 
+>content-type: text/html
+>server: openresty/1.19.3.1
+```
+
+1 - Adding new Employee record
+
+2 - Getting Employee record
+3 - Updating Employee record
 
 POST request : curl --location --request POST 'apis.gargrahul.com/api/emp' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
