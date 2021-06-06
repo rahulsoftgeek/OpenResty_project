@@ -42,7 +42,7 @@ docker run -d \
 ```
 If everything works fine then you should able to see APIs at `localhost:8082`.
 
-# Hosted the same application on AWS cloud and below is the architcture of the application.
+# Hosted the same application on AWS cloud and below is the architecture of the application.
 
 Web App Reference Architecture.pdf![image](https://user-images.githubusercontent.com/18359745/120928982-1b0ab980-c6b5-11eb-9ca8-ac1afc18c6d4.png)
 
