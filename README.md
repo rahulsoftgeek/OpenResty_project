@@ -31,6 +31,7 @@ docker build -t gargrahulcs/openresty:tag .
 ### Run Image
 
 -- Do setup Mysql and Redis credentials accordingly in the db.lua and redis.lua & connect with Database and redis cluster.
+
 -- Also, for Authorization set the paramters of API keys in the auth.lua accordinly send the API keys in the request header.
 
 ```bash
@@ -43,7 +44,7 @@ If everything works fine then you should able to see APIs at `localhost:8082\api
 
 ### API Information
 
-Received basic information of response status code, response header will get while sending below request.
+I have received basic information of response status code, response header while sending below request.
 ```bash
 $curl -I https://apis.gargrahul.com               
 >HTTP/2 200 
@@ -51,16 +52,25 @@ $curl -I https://apis.gargrahul.com
 >server: openresty/1.19.3.1
 ```
 
-1 - Adding new Employee record
+1 - Adding new Employee name in the database using POST Request (Also, added content header and API keys in the request header)
+
+```bash
+POST request : curl --location --request POST 'apis.gargrahul.com/api/emp' \ 
+-H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
+--data-raw '{ "name" : "peter" }'
+
+>HTTP/2 200
+
+>content-type: application/json
+
+>server: Rahul-server
+
+>1 rows inserted into table employees (last insert id: 5)
+```
 
 2 - Getting Employee record
 3 - Updating Employee record
 
-POST request : curl --location --request POST 'apis.gargrahul.com/api/emp' \ 
--H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
---data-raw '{
-        "name" : "peter"    
-}'
 
 GET request : curl --location -H 'X-API-KEY: abc123' --request GET 'apis.gargrahul.com/api/emp?id=7'
 
