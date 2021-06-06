@@ -55,31 +55,56 @@ $curl -I https://apis.gargrahul.com
 1 - Adding new Employee name in the database using POST Request (Also, added content header and API keys in the request header)
 
 ```bash
-POST request : curl --location --request POST 'apis.gargrahul.com/api/emp' \ 
+POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{ "name" : "peter" }'
 
 >HTTP/2 200
-
 >content-type: application/json
-
 >server: Rahul-server
-
 >1 rows inserted into table employees (last insert id: 5)
 ```
 
-2 - Getting Employee record
-3 - Updating Employee record
+2 - Received Employee Record from the database using ##GET Request.Also, implemented redis cache in the middle of application and database.
+    So, if we hit the same request again it would send back the result from redis cache.
+ 
+ -- Result from DB
+ 
+ ```bash
+GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
 
+>HTTP/2 200 
+>content-type: application/json
+>server: Rahul-server
+>Result from db: [{"name":"peter","id":5}]
+ ```
+ 
+ -- Result from Redis after sending the same GET request
+ 
+ ```bash
+ curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
 
-GET request : curl --location -H 'X-API-KEY: abc123' --request GET 'apis.gargrahul.com/api/emp?id=7'
+>HTTP/2 200 
+>content-type: application/json
+>server: Rahul-server
+>Result from redis: [{"name":"peter","id":5}]
+ ```
+ 
+3 - Updating Employee name using PUT Request.
 
-PUT request : curl --location --request PUT 'apis.gargrahul.com/api/emp?id=7' \ 
+ ```bash
+PUT request : curl --location --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{
         "name" : "joy"    
 }'
 
+>HTTP/2 200 
+>content-type: application/json
+>server: Rahul-server
+>1 row updated into table employees 
+ ```
+ 
 ### AWS Architecture
 
 I hosted the openresty application on AWS cloud and below is the architecture of the application.
