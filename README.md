@@ -95,7 +95,7 @@ GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://a
 3 - Updating Employee name using `PUT` Request.
 
  ```bash
-PUT request : curl --location --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
+PUT request : curl -i --location --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{
         "name" : "joy"    
