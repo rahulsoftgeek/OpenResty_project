@@ -52,7 +52,7 @@ $curl -I https://apis.gargrahul.com
 >server: openresty/1.19.3.1
 ```
 
-1 - Adding new Employee name in the database using POST Request (Also, added content header and API keys in the request header)
+1 - Adding new Employee name in the database using `POST` Request (Also, added content header and API keys in the request header)
 
 ```bash
 POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \ 
@@ -65,10 +65,10 @@ POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \
 >1 rows inserted into table employees (last insert id: 5)
 ```
 
-2 - Received Employee Record from the database using GET Request.Also, implemented redis cache in the middle of application and database.
+2 - Received Employee Record from the database using `GET` Request.Also, implemented redis cache in the middle of application and database.
     So, if we hit the same request again it would send back the result from redis cache.
  
- -- Result from DB
+ -- Result from `DB`
  
  ```bash
 GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
@@ -79,7 +79,7 @@ GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://a
 >Result from db: [{"name":"peter","id":5}]
  ```
  
- -- Result from Redis after sending the same GET request
+ -- Result from `Redis` after sending the same GET request
  
  ```bash
  curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
@@ -90,7 +90,7 @@ GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://a
 >Result from redis: [{"name":"peter","id":5}]
  ```
  
-3 - Updating Employee name using PUT Request.
+3 - Updating Employee name using `PUT` Request.
 
  ```bash
 PUT request : curl --location --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
