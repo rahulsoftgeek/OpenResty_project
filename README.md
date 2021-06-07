@@ -30,9 +30,9 @@ docker build -t gargrahulcs/openresty:tag .
 
 ### Run Image
 
--- Do setup Mysql and Redis credentials accordingly in the db.lua and redis.lua & connect with Database and redis cluster.
+-- Do change credentials of Mysql and Redis in the db.lua and redis.lua according to your database & redis cluster& connect with them.
 
--- Also, for Authorization set the paramters of API keys in the auth.lua accordinly send the API keys in the request header.
+-- Also, for Authentication set the paramter of API keys in the auth.lua and accordinly, send the API keys using `"X-API-KEY"` in the request header.
 
 ```bash
 docker run -d \
@@ -52,7 +52,7 @@ $curl -I https://apis.gargrahul.com
 >server: openresty/1.19.3.1
 ```
 
-1 - Adding new Employee name in the database using `POST` Request (Also, added content header and API keys in the request header)
+1 - Adding new Employee name in the database using `POST` Request (Also, added content type and API keys in the request header)
 
 ```bash
 POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \ 
