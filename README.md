@@ -7,7 +7,7 @@
 - OpenResty allows Lua based scripting to create web applications directly on the Nginx webserver.
 - This code is running inside the Nginx worker process and therefore does not need to be interpreted or compiled by another service; making it an efficient solution.
 - This is just a simple example of how we can expose an API endpoint using Nginx (nginx.conf) which passes the request to a Lua script (api.lua). 
-- Deployed this application on AWS using multiple services like EC2, Application Load balancer, Route53, VPC, Security Group.
+- Deployed this application on AWS using multiple services like EC2, NAT instance, Application Load balancer, Route53, ACM, VPC, Security Group.
 - openresty is running inside a docker container and uploaded all the docker images on dockerhub.
 - Also, for Authentication purpose, added auth.lua in nginx.conf to authticate user.
 - Here, on the backend we are running mysql database and redis for cache.
