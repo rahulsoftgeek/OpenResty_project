@@ -65,7 +65,7 @@ POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \
 >1 rows inserted into table employees (last insert id: 5)
 ```
 
-2 - Received Employee Record from the database using ##GET Request.Also, implemented redis cache in the middle of application and database.
+2 - Received Employee Record from the database using GET Request.Also, implemented redis cache in the middle of application and database.
     So, if we hit the same request again it would send back the result from redis cache.
  
  -- Result from DB
