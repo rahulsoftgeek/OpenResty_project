@@ -64,7 +64,7 @@ POST request : curl -i --request POST 'apis.gargrahul.com/api/emp' \
 >HTTP/2 200
 >content-type: application/json
 >server: Rahul-server
->1 rows inserted into table employees (last insert id: 5)
+>1 row inserted into table employees (last insert id: 5)
 ```
 
 2 - Received Employee Record from the database using `GET` Request.Also, implemented redis cache in the middle of application and database.
