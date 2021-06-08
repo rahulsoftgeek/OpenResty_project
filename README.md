@@ -57,7 +57,7 @@ $curl -I https://apis.gargrahul.com
 1 - Adding new Employee name in the database using `POST` Request (Also, added content type and API keys in the request header)
 
 ```bash
-POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \ 
+POST request : curl -i --request POST 'apis.gargrahul.com/api/emp' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{ "name" : "peter" }'
 
@@ -73,7 +73,7 @@ POST request : curl -i --location --request POST 'apis.gargrahul.com/api/emp' \
  -- Result from `DB`
  
  ```bash
-GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
+GET request : curl -i -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
 
 >HTTP/2 200 
 >content-type: application/json
@@ -84,7 +84,7 @@ GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://a
  -- Result from `Redis` after sending the same GET request
  
  ```bash
- curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
+ curl -i -H 'X-API-KEY: abc123' --request GET 'https://apis.gargrahul.com/api/emp?id=5'
 
 >HTTP/2 200 
 >content-type: application/json
@@ -95,7 +95,7 @@ GET request : curl -i --location -H 'X-API-KEY: abc123' --request GET 'https://a
 3 - Updating Employee name using `PUT` Request.
 
  ```bash
-PUT request : curl -i --location --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
+PUT request : curl -i --request PUT 'https://apis.gargrahul.com/api/emp?id=7' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{
         "name" : "joy"    
