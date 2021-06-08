@@ -32,7 +32,7 @@ docker build -t gargrahulcs/openresty:tag .
 
 -- All the docker images related to this project are stored in a public repository on Docker hub. (gargrahulcs/openresty) 
 
--- Do change credentials of Mysql and Redis in the db.lua and redis.lua according to your database & redis cluster& connect with them.
+-- Do change credentials of Mysql and Redis in the db.lua and redis.lua according to your database & redis cluster & connect with them.
 
 -- Also, for Authentication set the paramter of API keys in the auth.lua and accordinly, send the API keys using `"X-API-KEY"` in the request header.
 
@@ -42,7 +42,7 @@ docker run -d \
     -p 8082:8082 \
     gargrahulcs/openresty:tag
 ```
-If everything works fine then you should able to see APIs at `localhost:8082\api\emp`.
+If everything works fine then you should able to send requests at `localhost:8082\api\emp`.
 
 ### API Information
 
