@@ -57,7 +57,7 @@ $curl -I https://apis.gargrahul.com
 1 - Adding new Employee name in the database using `POST` Request (Also, added content type and API keys in the request header)
 
 ```bash
-POST request : curl -i --request POST 'apis.gargrahul.com/api/emp' \ 
+POST request : curl -i --request POST 'https://apis.gargrahul.com/api/emp' \ 
 -H 'Content-Type: application/json' -H 'X-API-KEY: abc123' \
 --data-raw '{ "name" : "peter" }'
 
