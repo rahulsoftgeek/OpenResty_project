@@ -116,4 +116,8 @@ I hosted the openresty application on AWS cloud and below is the architecture of
 - Running the docker container of openresty server on EC2 instance inside custom VPC and public subnet.
 - Also, running docker container of MySQL and redis on different EC2 instance inside the same VPC in private subnet and connect with NAT instance to access the internet.
 - Configured the application load balancer to balance the web traffic. Also, provide fault-tolerance (Highly Available) & high performance.
+<<<<<<< HEAD
 - Added DNS endpoint of ALB to Route 53 to access an application.
+=======
+- Added DNS endpoint of ALB to Route 53 to access an application.
+>>>>>>> 42b5415dcb489fd865b0882c1a89bf850f495f57
