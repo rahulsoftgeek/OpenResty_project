@@ -13,11 +13,11 @@ function _M.connect()
     db:set_timeout(1000) -- 1 sec   
 
     local ok, err, errcode, sqlstate = db:connect{
-        host = "127.0.0.1",
+        host = os.getenv("host"),
         port = 3306,
-        database = "employee",
-        user = "root",
-        password = "password",
+        database = os.getenv("database"),
+        user = os.getenv("user"),
+        password = os.getenv("password"),
         charset = "utf8",
         max_packet_size = 1024 * 1024,
         pool = "mysql_conn_pool",

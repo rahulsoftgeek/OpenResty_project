@@ -23,6 +23,7 @@ if json_username ~= '{}' then
                                     payload={name=quoted_name}
                                     }
                                 );
+                                
                 ngx.say(cjson.encode(jwt_token));
                 quoted_token = ngx.quote_sql_str(jwt_token)
                 get_token = "update employees set token =" .. quoted_token .. " where username ="..quoted_name
