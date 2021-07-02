@@ -1,7 +1,6 @@
-local db_conn = require "db"                            --import the custom db module        
-local red_conn = require "redis"                        --import the custom redis module
-
-local cjson = require("cjson")                          -- Introduce cjson
+--local db_conn = require "db"                            --import the custom db module        
+--local red_conn = require "redis"                        --import the custom redis module
+--local cjson = require("cjson")                          -- Introduce cjson
 ngx.req.read_body();                                     -- Required for ngx.req.get_body_data()
 local reqPath = ngx.var.uri:gsub("api/", "")             -- Strip the api/ bit from the request path
 local reqMethod = ngx.var.request_method                 -- Get the request method
@@ -31,7 +30,7 @@ function Api.endpoint(method, path, callback)            -- Function for checkin
             ngx.say("bad result: ", err, ": ", errcode, ": ", sqlstate, ".")
             return
         end
-        ngx.say(res.affected_rows, " rows inserted into table employees ",
+        ngx.say(res.affected_rows, " row inserted into table employees ",
                                    "(last insert id: ", res.insert_id, ")") -- return id of added row
 end
 
@@ -49,7 +48,7 @@ if reqMethod == 'PUT' then
             ngx.say("Bad Request")
             return false;
         end
-    local id = tonumber(ngx.unescape_uri(ngx.var.arg_id)) 
+    local id = tonumber(ngx.var.arg_id)
     local quoted_put_id = ngx.quote_sql_str(id) 
     local body_param = cjson.decode(ngx.req.get_body_data())  
     local put_value = ""                                                 
@@ -61,14 +60,14 @@ if reqMethod == 'PUT' then
     local quoted_put_name = ngx.quote_sql_str(put_value)
     local put_query = "update employees set name =" .. quoted_put_name .. " where id =" ..quoted_put_id
     local put_res, err, errcode, sqlstate = db_conn.connect(db):query(put_query)
-    local get_query =  "select * from employees where id =" ..quoted_put_id
+    local get_query =  "select name,id from employees where id =" ..quoted_put_id
     local res, err, errcode, sqlstate = db_conn.connect(db):query(get_query)
     red_conn.redconnect(red):set("id_"..id,cjson.encode(res))
     ngx.say(put_res.affected_rows," row updated into table employees ")
 end
 
 if reqMethod == 'DELETE' then
-    local id = tonumber(ngx.unescape_uri(ngx.var.arg_id)) 
+    local id = tonumber(ngx.var.arg_id)
     local quoted_del_id = ngx.quote_sql_str(id) 
     local del_query =  "delete from employees where id =" ..quoted_del_id
     local del_res, err, errcode, sqlstate = db_conn.connect(db):query(del_query)
@@ -90,7 +89,7 @@ if reqMethod == 'GET' then                                                  -- v
     
     if res_str == "userdata: NULL"  then                                    -- check if retured data is NULL
         local quoted_name_get = ngx.quote_sql_str(id)                       -- fetch data from db
-        local get_query =  "select * from employees where id =" ..quoted_name_get
+        local get_query =  "select id,name from employees where id =" ..quoted_name_get
         local res, err, errcode, sqlstate =
         db_conn.connect(db):query(get_query)
             if not res or cjson.encode(res) == '{}' then

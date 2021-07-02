@@ -15,6 +15,12 @@ function _M.redconnect()
         return
     end
 
+    local res, err = red:auth("password")
+    if not res then
+        ngx.say("failed to authenticate: ", err)
+        return
+    end
+
     return red
 
 end

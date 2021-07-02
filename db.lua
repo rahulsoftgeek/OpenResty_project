@@ -1,4 +1,4 @@
-local mysql = require "resty.mysql"
+--local mysql = require "resty.mysql"
 
 local _M={}
 

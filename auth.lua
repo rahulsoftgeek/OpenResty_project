@@ -1,6 +1,7 @@
 local cjson = require "cjson.safe" 
-
-local allowedkeys = {"abc123", "def456", "hij789"} 
+local cjson = require "cjson"
+local jwt = require "resty.jwt"
+local db_conn = require "db" 
 
 local function badAuth() 
     ngx.status = 401 
@@ -10,11 +11,13 @@ local function badAuth()
 end 
  
 local function isAuthorised (key) 
-    for index, value in ipairs(allowedkeys) do 
-        if value == key then 
-            return true 
-        end 
-    end 
+    quoted_key = ngx.quote_sql_str(key)
+    get_token = "select username from employees where token =" ..quoted_key
+    db_token = db_conn.connect(db):query(get_token)
+    json_token = cjson.encode(db_token)
+    if json_token ~= '{}' then
+        return true
+    end
     return false 
 end 
  
