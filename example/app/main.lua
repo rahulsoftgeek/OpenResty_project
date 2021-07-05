@@ -49,7 +49,7 @@ end
 local dbConn = db.connect()
 if dbConn then
     local req = getReq()
-    -- first: we often do SQL statements between `connect` and `keepalive` in a request from client
+    -- note: we often do SQL statements between `connect` and `keepalive` in a request from client
     -- for example:
     -- request is: curl -H "Content-Type:application/json" -X POST -d '{"username":"tweyseo3", "password":"123"}' "http://127.0.0.1:9527"
     --[[
@@ -66,8 +66,9 @@ if dbConn then
     local _username = ngx.quote_sql_str(req.body.username)
     local _password = ngx.quote_sql_str(req.body.password)
     local queryTokenSQL = "select token from employee where username=".._username.." and password=".._password
-    local res, err, errcode, sqlstate = dbConn:query(queryTokenSQL)
+    local res, err, errcode, sqlstate = dbConn:query(queryTokenSQL) -- do SQL statements
     if not res then
+        -- you are always recommend to use ngx.log to record log
         ngx.log(ngx.WARN, "bad result: ", err, ": ", errcode, ": ", sqlstate, ".")
         ngx.status(ngx.HTTP_INTERNAL_SERVER_ERROR)
         return ngx.say("internal server error!")
@@ -80,13 +81,13 @@ if dbConn then
         local token = ngx.var.request_id
         local updateTokenSQL = "update employee SET token="..ngx.quote_sql_str(token)
             .."where username=".._username.." and password=".._password
-        res, err, errcode, sqlstate = dbConn:query(updateTokenSQL)
+        res, err, errcode, sqlstate = dbConn:query(updateTokenSQL)  -- do SQL statements
         if not res then
             ngx.log(ngx.WARN, "bad result: ", err, ": ", errcode, ": ", sqlstate, ".")
             ngx.status(ngx.HTTP_INTERNAL_SERVER_ERROR)
             return ngx.say("internal server error!")
         end
-    else
+
         ngx.say("token is: ", token)
     end
 
